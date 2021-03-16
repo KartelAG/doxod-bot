@@ -4,7 +4,7 @@ from pytz import timezone
 
 
 def localize(d: datetime) -> datetime:
-    return timezone('Europe/Moscow').localize(d)
+    return timezone('Asia/Yekaterinburg').localize(d)
 
 
 def get_now() -> datetime:
