@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import os
 
 from aiogram import Bot, Dispatcher, executor, types

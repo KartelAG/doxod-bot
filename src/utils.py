@@ -1,3 +1,6 @@
+''' this file is copied from https://github.com/alexey-goloburdin/tinkoff-analytics
+    hope, this is not a crime :)
+'''
 from datetime import datetime
 
 from pytz import timezone

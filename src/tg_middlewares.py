@@ -1,3 +1,7 @@
+''' this file is copied from https://github.com/alexey-goloburdin/telegram-finance-bot
+    hope, this is not a crime :)
+'''
+
 from aiogram import types
 from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import os
 from decimal import Decimal
 from datetime import datetime, timedelta

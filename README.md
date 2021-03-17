@@ -22,6 +22,6 @@ TELEGRAM_ACCESS_ID=your_telegram_id
 ```
 python tg_bot.py
 ```
-then give you bot a command ```/income```
+then give your bot a command ```/income```
 
 or just press a button ```Get income!```
