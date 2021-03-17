@@ -58,6 +58,5 @@ def get_pays_in() -> Decimal:
 
 
 if ( __name__ == "__main__" ):
-    overall = round(get_current_portfolio_price() - get_pays_in(), 2)
     print('=====================')
-    print(f'Overall income:\t{str(overall)} RUB')
+    print(f'Overall income:\t{str(round(get_current_portfolio_price() - get_pays_in(), 2))} RUB')
