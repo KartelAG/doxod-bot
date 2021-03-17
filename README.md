@@ -1,6 +1,7 @@
 # Telegram bot for Tinkoff Invest
 
 Simple bot that calculates (in the very naive way) the current income of your portfolio
+Actually created as an exercise
 
 > *inspired by [Alexey Goloburdin](https://github.com/alexey-goloburdin)*
 
