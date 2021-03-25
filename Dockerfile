@@ -1,9 +1,8 @@
 FROM python:3.9
 
-ADD doxod /doxod
-COPY requirements.txt /doxod/requirements.txt
+ADD . /src
 
-WORKDIR /doxod
+WORKDIR /src
 
 RUN pip install -r /doxod/requirements.txt 
 

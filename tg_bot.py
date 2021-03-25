@@ -3,7 +3,7 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher.filters import Text
 from tg_middlewares import AccessMiddleware
-import .calc
+from doxod import calc
 
 API_TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
 ACCESS_ID = os.getenv('TELEGRAM_ACCESS_ID')
