@@ -25,7 +25,8 @@ client = tinvest.SyncClient(TOKEN)
 
 def get_position_price(figi: str, day: datetime) -> Decimal:
     ''' gets price for a day - from [day - 1] to [day] (close candle)''' 
-    if datetime.utcnow() < day.utcnow():
+    if datetime.now().timestamp() < day.timestamp():
+        print('==== someone came from the future? ====')
         raise ValueError
     position_canldes = []
     days_delta = 1
