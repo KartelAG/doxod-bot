@@ -1,7 +1,5 @@
 import unittest, datetime, sys
 
-#sys.path.append('H:\\Fun\\Python\\tinkoff\\doxod')
-
 from doxod import calc
 
 FIGI_USD = 'BBG0013HGFT4'

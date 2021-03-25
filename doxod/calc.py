@@ -25,12 +25,22 @@ client = tinvest.SyncClient(TOKEN)
 
 def get_position_price(figi: str, day: datetime) -> Decimal:
     ''' gets price for a day - from [day - 1] to [day] (close candle)''' 
-    return (client.get_market_candles(figi, day - timedelta(days=1), day, tinvest.schemas.CandleResolution('day'))).payload.candles[0].c
+    position_canldes = []
+    days_delta = 1
+    while (len(position_canldes) == 0):
+        if days_delta > 14:
+            raise ValueError
+        position_canldes = client.get_market_candles(figi, day - timedelta(days=days_delta), day, tinvest.schemas.CandleResolution('day')).payload.candles
+        days_delta += 1
+    return position_canldes[0].c
 
 def get_current_portfolio_price() -> Decimal:
     sum = 0
     for position in client.get_portfolio().payload.positions:
-        candles = client.get_market_candles(position.figi, localize(datetime.now() - timedelta(days=1)), get_now(), tinvest.schemas.CandleResolution('hour')).payload.candles
+        try:
+            candles = client.get_market_candles(position.figi, localize(datetime.now() - timedelta(days=1)), get_now(), tinvest.schemas.CandleResolution('hour')).payload.candles
+        except ValueError:
+            return -1
         value = position.balance * candles[-1].c
         if position.expected_yield.currency == 'USD':
             value = value * get_position_price(FIGI_USD, datetime.now())
@@ -56,5 +66,9 @@ def get_pays_in() -> Decimal:
 
 
 if ( __name__ == "__main__" ):
+    portfolio = get_current_portfolio_price()
     print('=====================')
-    print(f'Overall income:\t{str(round(get_current_portfolio_price() - get_pays_in(), 2))} RUB')
+    if portfolio > 0:
+        print(f'Overall income:\t{str(round(portfolio - get_pays_in(), 2))} RUB')
+    else:
+        print(f'Oops! Something went wrong')
