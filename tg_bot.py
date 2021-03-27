@@ -34,6 +34,7 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(commands=['income'])
 @dp.message_handler(Text(equals='Get income!'))
 async def send_income(message: types.Message):
+    await message.reply('Please wait...', reply_markup=markup)
     overall = round(calc.get_current_portfolio_price() - calc.get_pays_in(), 2)
     await message.reply(f'Overall income:\n{str(overall)} {RUB}', reply_markup=markup)
 
