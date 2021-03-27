@@ -42,9 +42,13 @@ def get_current_portfolio_price() -> Decimal:
     for position in client.get_portfolio().payload.positions:
         try:
             candles = client.get_market_candles(position.figi, localize(datetime.now() - timedelta(days=1)), get_now(), tinvest.schemas.CandleResolution('hour')).payload.candles
+            if (len(candles) == 0):
+                position_price = get_position_price(position.figi, get_now())
+            else:
+                position_price = candles[-1].c
         except ValueError:
             return -1
-        value = position.balance * candles[-1].c
+        value = position.balance * position_price
         if position.expected_yield.currency == 'USD':
             value = value * get_position_price(FIGI_USD, datetime.now())
         if position.expected_yield.currency == 'EUR':
