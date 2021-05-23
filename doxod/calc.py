@@ -57,6 +57,27 @@ def get_current_portfolio_price() -> Decimal:
         sum += value
     return sum
         
+def get_current_portfolio_price_dollar() -> Decimal:
+    sum = 0
+    for position in client.get_portfolio().payload.positions:
+        try:
+            candles = client.get_market_candles(position.figi, localize(datetime.now() - timedelta(days=1)), get_now(), tinvest.schemas.CandleResolution('hour')).payload.candles
+            if (len(candles) == 0):
+                position_price = get_position_price(position.figi, get_now())
+            else:
+                position_price = candles[-1].c
+        except ValueError:
+            return -1
+        value = position.balance * position_price
+        if position.expected_yield.currency == 'RUB':
+            value = value / get_position_price(FIGI_USD, datetime.now())
+        if position.expected_yield.currency == 'EUR':
+            value = value * get_position_price(FIGI_EUR, datetime.now()) / get_position_price(FIGI_USD, datetime.now())
+        #print(f'{position.name} \t {str(value)}')
+        sum += value
+    return sum
+
+
 def get_pays_in() -> Decimal:
     sum = 0
     oper_list = client.get_operations(BROKER_ACCOUNT_STARTED_AT, datetime.now())
@@ -71,11 +92,26 @@ def get_pays_in() -> Decimal:
             sum += value
     return sum
 
+def get_pays_in_dollar() -> Decimal:
+    sum = 0
+    oper_list = client.get_operations(BROKER_ACCOUNT_STARTED_AT, datetime.now())
+    for operation in oper_list.payload.operations:
+        if (operation.operation_type.value == "PayIn") or (operation.operation_type.value == "PayOut"):
+            if (operation.currency == 'USD'):
+                value = operation.payment
+            elif (operation.currency == 'RUB'):
+                value = operation.payment / get_position_price(FIGI_USD, operation.date)
+            elif (operation.currency == 'EUR'):
+                value = (operation.payment * get_position_price(FIGI_EUR, operation.date)) / get_position_price(FIGI_USD, operation.date)
+            sum += value
+    return sum
 
 if ( __name__ == "__main__" ):
     portfolio = get_current_portfolio_price()
+    portfolio_usd = get_current_portfolio_price_dollar()
     print('=====================')
-    if portfolio > 0:
+    if portfolio > 0 and portfolio_usd > 0:
         print(f'Overall income:\t{str(round(portfolio - get_pays_in(), 2))} RUB')
+        print(f'Overall income:\t{str(round(portfolio_usd - get_pays_in_dollar(), 2))} USD')
     else:
         print(f'Oops! Something went wrong')

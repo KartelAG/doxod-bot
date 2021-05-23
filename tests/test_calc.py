@@ -19,11 +19,19 @@ class TestCalc(unittest.TestCase):
     def test_get_portfolio_price(self):
         self.assertGreater(calc.get_current_portfolio_price(), 0)
 
+    def test_get_portfolio_price_dollat(self):
+        self.assertGreater(calc.get_current_portfolio_price_dollar(), 0)
+
     def test_get_pays_in(self):
         self.assertGreater(calc.get_pays_in(), 0)
+    
+    def test_get_pays_in_dollar(self):
+        self.assertGreater(calc.get_pays_in_dollar(), 0)
 
     def test_real_case(self):
         self.assertGreater(calc.get_current_portfolio_price() - calc.get_pays_in(), 0)
+
+    
 
 if __name__ == '__main__':
     unittest.main()
