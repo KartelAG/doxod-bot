@@ -43,5 +43,5 @@ jobs:
           docker build \
           -t ${DOCKER_LOGIN}/doxod-bot:${ref} \
           -t ${DOCKER_LOGIN}/doxod-bot:latest .
-          docker push -t ${DOCKER_LOGIN}/doxod-bot:${ref} 
-          docker push -t ${DOCKER_LOGIN}/doxod-bot:latest
+          docker push ${DOCKER_LOGIN}/doxod-bot:${ref} 
+          docker push ${DOCKER_LOGIN}/doxod-bot:latest
