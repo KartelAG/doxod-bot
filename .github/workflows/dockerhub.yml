@@ -27,15 +27,15 @@ jobs:
       # Runs a set of commands using the runners shell
       #- name: Docker login
       #  env:
-      #    DOCKER_LOGIN: ${{ secret.DOCKER_LOGIN }}
-      #    DOCKER_HUB_TOKEN: ${{ secret.DOCKER_HUB_TOKEN }}  
+      #    DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
+      #    DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}  
       #  run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASS
       
       - name: docker login & build & push
         env:
           GITHUB_REF: ${{ github.ref }}
-          DOCKER_LOGIN: ${{ secret.DOCKER_LOGIN }}
-          DOCKER_HUB_TOKEN: ${{ secret.DOCKER_HUB_TOKEN }}  
+          DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}  
         run: |
           ref="$(echo ${GITHUB_REF} | cut -d'/' -f3)"
           echo GITHUB_REF - $ref
