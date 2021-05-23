@@ -40,6 +40,8 @@ jobs:
           ref="$(echo ${GITHUB_REF} | cut -d'/' -f3)"
           echo GITHUB_REF - $ref
           echo ${DOCKER_HUB_TOKEN} | docker login -u ${DOCKER_LOGIN} --password-stdin
-          docker build --push \
+          docker build \
           -t ${DOCKER_LOGIN}/doxod-bot:${ref} \
           -t ${DOCKER_LOGIN}/doxod-bot:latest .
+          docker push -t ${DOCKER_LOGIN}/doxod-bot:${ref} 
+          docker push -t ${DOCKER_LOGIN}/doxod-bot:latest
